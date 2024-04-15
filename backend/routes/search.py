@@ -10,6 +10,10 @@ def search():
 
     if image_urls:
         texts = extract_texts_from_images(image_urls)
+
         return jsonify({'texts': texts})
     else:
         return jsonify({'error': '이미지를 가져올 수 없습니다.'}), 404
+
+
+
