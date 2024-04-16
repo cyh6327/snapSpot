@@ -44,6 +44,6 @@ def get_images(url):
 
 # 테스트 URL로 함수 실행
 if __name__ == '__main__':
-    test_url = "https://www.instagram.com/p/C5fl85JLpKF"
+    test_url = "https://www.instagram.com/p/C5xuEMbr7Wk"
     images = get_images(test_url)
     print(images)

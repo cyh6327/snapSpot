@@ -73,29 +73,30 @@ def get_enhanced_img(image_url):
 
     enhanced_image = enhance_contrast(denoised_image)
 
-    deskewed_image = deskew(enhanced_image)
-    final_image = Image.fromarray(deskewed_image)
+    #deskewed_image = deskew(enhanced_image)
+    final_image = Image.fromarray(enhanced_image)
 
     return final_image
 
 
 if __name__ == '__main__':
-    image_url = 'https://scontent-ssn1-1.cdninstagram.com/v/t39.30808-6/436176159_18010369400463428_6366994287141752585_n.jpg?stp=dst-jpg_e15_fr_s1080x1080&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=108&_nc_ohc=SmLadfvtO8UAb5mEZzt&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfAK0wpR7ytPhHJeVLcudPWSiVkIDB-DNrebGYbs5eel1w&oe=66228697&_nc_sid=cf751b'
-    binary_image = binarize_image_from_image(image_url)
-
-    denoised_image = remove_noise(binary_image)
-
-    # 이진화된 이미지 확인 (OpenCV 활용)
-    # cv2.imshow('denoised_image', denoised_image)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-
-    enhanced_image = enhance_contrast(denoised_image)
-    # enhanced_image.show()
-
-    deskewed_image = deskew(enhanced_image)
-    final_image = Image.fromarray(deskewed_image)
-    final_image.show()
+    image_url = 'https://scontent-ssn1-1.cdninstagram.com/v/t39.30808-6/436197564_18395126248077210_2759371462772296104_n.jpg?stp=dst-jpg_e35_s1080x1080_sh0.08&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=106&_nc_ohc=QyjWRwkpqSkAb6mi4yf&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfBj6YeNy_2REVUgAlov7XyocrbD0mh9-iU6ghjQ09f_9Q&oe=6623BF79&_nc_sid=cf751b'
+    final_image = get_enhanced_img(image_url)
+    # binary_image = binarize_image_from_image(image_url)
+    #
+    # denoised_image = remove_noise(binary_image)
+    #
+    # # 이진화된 이미지 확인 (OpenCV 활용)
+    # # cv2.imshow('denoised_image', denoised_image)
+    # # cv2.waitKey(0)
+    # # cv2.destroyAllWindows()
+    #
+    # enhanced_image = enhance_contrast(denoised_image)
+    # # enhanced_image.show()
+    #
+    # deskewed_image = deskew(enhanced_image)
+    # final_image = Image.fromarray(deskewed_image)
+    # final_image.show()
 
 
 

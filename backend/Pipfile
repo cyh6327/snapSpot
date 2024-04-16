@@ -53,6 +53,7 @@ wsproto = "==1.2.0"
 "zope.interface" = "==6.2"
 opencv-python = "*"
 numpy = "*"
+google-cloud-vision = "*"
 
 [dev-packages]
 
