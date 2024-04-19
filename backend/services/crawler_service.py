@@ -4,7 +4,8 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-def get_images(url, mode='all', start_page=0):
+
+def get_crawled_urls(url, mode='all', start_page=0):
     print("mode: {}, start_page: {}".format(mode, start_page))
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
@@ -58,11 +59,11 @@ def get_images(url, mode='all', start_page=0):
 if __name__ == '__main__':
     # 단일 이미지, 시작 페이지 1 (다음 버튼 1번 클릭 후 첫 이미지 추출)
     image_url = "https://www.instagram.com/somepage/"
-    single_image = get_images(image_url, mode='single', start_page=1)
+    single_image = get_crawled_urls(image_url, mode='single', start_page=1)
     print(single_image)
 
     # 전체 이미지, 시작 페이지 2 (다음 버튼 2번 클릭 후 전체 이미지 추출)
-    all_images = get_images(image_url, mode='all', start_page=2)
+    all_images = get_crawled_urls(image_url, mode='all', start_page=2)
     print(all_images)
 
 

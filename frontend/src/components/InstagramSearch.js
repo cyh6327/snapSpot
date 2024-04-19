@@ -7,9 +7,9 @@ function InstagramSearch() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [texts, setTexts] = useState([]);
-  const [pageOption, setPageOption] = useState('');
+  const [page_option, setpage_option] = useState('');
   const [specificPage, setSpecificPage] = useState(false);
-  const [startPage, setStartPage] = useState(1);
+  const [start_page, setstart_page] = useState(1);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedTexts, setSelectedTexts] = useState([]);
 
@@ -21,12 +21,12 @@ function InstagramSearch() {
     setLoading(true);
     setErrorMessage('');
 
-    const apiUrl = 'http://127.0.0.1:5000/api/search';
+    const apiUrl = 'http://localhost:5000/api/crawled-urls';
     try {
       const response = await axios.post(apiUrl, {
         instagram_url: instagramUrl,
-        pageOption: pageOption,
-        startPage: specificPage ? startPage : null
+        page_option: page_option,
+        start_page: specificPage ? start_page : null
       });
       setTexts(response.data.texts);
     } catch (error) {
@@ -49,7 +49,7 @@ function InstagramSearch() {
   const handleSpecificPageChange = () => {
     setSpecificPage(!specificPage);
     if (!specificPage) {
-      setStartPage(1);
+      setstart_page(1);
     }
   };
 
@@ -66,14 +66,14 @@ function InstagramSearch() {
         <input
           type="radio"
           value="single"
-          checked={pageOption === 'single'}
-          onChange={() => setPageOption('single')}
+          checked={page_option === 'single'}
+          onChange={() => setpage_option('single')}
         /> 단일
         <input
           type="radio"
           value="all"
-          checked={pageOption === 'all'}
-          onChange={() => setPageOption('all')}
+          checked={page_option === 'all'}
+          onChange={() => setpage_option('all')}
         /> 전체
         <input
           type="checkbox"
@@ -82,8 +82,8 @@ function InstagramSearch() {
         /> 시작 페이지 지정
         <input
           type="number"
-          value={startPage}
-          onChange={e => setStartPage(e.target.value)}
+          value={start_page}
+          onChange={e => setstart_page(e.target.value)}
           disabled={!specificPage}
         />
       </div>
