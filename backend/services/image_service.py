@@ -64,12 +64,12 @@ def download_and_save_images(image_urls, save_directory="./img_downloaded"):
     return saved_image_paths
 
 
-def detect_text_from_local_files(local_image_paths):
+def detect_text_from_local_files(saved_image_paths, is_save_images):
     """로컬에 저장된 이미지 파일들로부터 텍스트를 추출합니다."""
     result = []
     client = vision.ImageAnnotatorClient()
 
-    for index, path in enumerate(local_image_paths):
+    for index, path in enumerate(saved_image_paths):
         print(f"Start processing image: {path}")
         try:
             with open(path, 'rb') as image_file:
@@ -90,6 +90,15 @@ def detect_text_from_local_files(local_image_paths):
             result.append(current_image_texts)
         except Exception as e:
             print(f"Error processing {path}: {e}")
+
+    # 이미지 저장 플래그가 False이면 이미지 파일 삭제
+    if not is_save_images:
+        for path in saved_image_paths:
+            try:
+                os.remove(path)
+                print(f"Deleted image: {path}")
+            except Exception as e:
+                print(f"Failed to delete image {path}: {e}")
 
     return result
 

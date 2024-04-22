@@ -12,8 +12,10 @@ function InstagramSearch() {
   const [start_page, setstart_page] = useState(1);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedTexts, setSelectedTexts] = useState([]);
+  const [isSaveImages, setIsSaveImages] = useState(false);
+  const [imageSavePath, setSaveImagePath] = useState(null);
 
-  const searchImage = async () => {
+  const getImageUrls = async () => {
     if (!instagramUrl) {
       setErrorMessage('URL을 입력해주세요.');
       return;
@@ -26,9 +28,11 @@ function InstagramSearch() {
       const response = await axios.post(apiUrl, {
         instagram_url: instagramUrl,
         page_option: page_option,
-        start_page: specificPage ? start_page : null
+        start_page: specificPage ? start_page : 1
       });
-      setTexts(response.data.texts);
+      console.log(response)
+      //setTexts(response.data.texts);
+      downloadImages(response.data.texts);
     } catch (error) {
       setErrorMessage('검색 중 오류가 발생했습니다.');
       console.error(error);
@@ -36,6 +40,40 @@ function InstagramSearch() {
       setLoading(false);
     }
   };
+
+  const downloadImages = async (urls) => {
+    const apiUrl = 'http://localhost:5000/api/images';
+    try {
+      const response = await axios.post(apiUrl, {
+        image_urls: urls,
+        image_save_path: imageSavePath
+      });
+      console.log(response)
+      getTextsFromImg(response.data.saved_image_paths)
+    } catch (error) {
+      setErrorMessage('이미지 저장 중 오류가 발생했습니다.');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getTextsFromImg = async (imagePaths) => {
+    const apiUrl = 'http://localhost:5000/api/images/texts';
+    try {
+      const response = await axios.post(apiUrl, {
+        image_paths: imagePaths,
+        is_save_images : isSaveImages
+      });
+      console.log(response)
+      // TODO: 리턴받은 text \n 기준으로 split
+    } catch (error) {
+      setErrorMessage('이미지 저장 중 오류가 발생했습니다.');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const toggleSelectAll = () => {
     if (selectAll) {
@@ -51,6 +89,10 @@ function InstagramSearch() {
     if (!specificPage) {
       setstart_page(1);
     }
+  };
+
+  const handleCheckboxChange = () => {
+    setIsSaveImages(!isSaveImages);
   };
 
   return (
@@ -86,8 +128,14 @@ function InstagramSearch() {
           onChange={e => setstart_page(e.target.value)}
           disabled={!specificPage}
         />
+        <input
+          type="checkbox"
+          checked={isSaveImages}
+          onChange={handleCheckboxChange}
+        /> 이미지 저장 여부
+        {isSaveImages && <input type="text" placeholder="이미지 저장 경로" value={imageSavePath} onChange={e => setSaveImagePath(e.target.value)}/>}
+        <button onClick={getImageUrls}>검색</button>
       </div>
-      <button onClick={searchImage}>검색</button>
       {loading && <div>로딩 중...</div>}
       {errorMessage && <div className="error">{errorMessage}</div>}
       {texts.length > 0 && (

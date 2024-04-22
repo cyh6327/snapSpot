@@ -9,9 +9,9 @@ def route_get_crawled_urls():
     data = request.json
     instagram_url = data.get('instagram_url')
     page_option = data.get('page_option')
-    start_age = data.get('start_page')
+    start_page = data.get('start_page')
 
-    image_urls = get_crawled_urls(instagram_url, page_option, int(start_age))
+    image_urls = get_crawled_urls(instagram_url, page_option, int(start_page))
     print(len(image_urls))
 
     if image_urls:
