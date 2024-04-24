@@ -67,6 +67,7 @@ def download_and_save_images(image_urls, save_directory="./img_downloaded"):
 def detect_text_from_local_files(saved_image_paths, is_save_images):
     """로컬에 저장된 이미지 파일들로부터 텍스트를 추출합니다."""
     result = []
+    current_image_texts = ''
     client = vision.ImageAnnotatorClient()
 
     for index, path in enumerate(saved_image_paths):
@@ -78,11 +79,10 @@ def detect_text_from_local_files(saved_image_paths, is_save_images):
             response = client.text_detection(image=image)
             texts = response.text_annotations
 
-            current_image_texts = {}
             if texts:
                 full_text_description = texts[0].description.strip()
-                current_image_texts[index] = full_text_description
-                print(f"Extracted text from {path}: {full_text_description}")
+                current_image_texts = full_text_description
+                print(f"Extracted text : {full_text_description}")
 
             if response.error.message:
                 raise Exception(f"{response.error.message}\nFor more info on error messages, check: https://cloud.google.com/apis/design/errors")

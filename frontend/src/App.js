@@ -1,10 +1,10 @@
 import './App.css';
-import InstagramSearch from './components/InstagramSearch';
+import InstagramSearchComponent from './components/InstagramSearchComponent';
 
 function App() {
   return (
     <div className="App">
-      <InstagramSearch />
+      <InstagramSearchComponent />
     </div>
   );
 }

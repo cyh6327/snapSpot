@@ -15,6 +15,6 @@ def route_get_crawled_urls():
     print(len(image_urls))
 
     if image_urls:
-        return jsonify({'texts': image_urls})
+        return jsonify({'image_urls': image_urls})
     else:
         return jsonify({'error': '이미지를 가져올 수 없습니다.'}), 404

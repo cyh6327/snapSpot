@@ -111,6 +111,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.jpeg
 # backend end
 
 # frontend start
@@ -139,5 +141,5 @@ pnpm-debug.log*
 *.sw?
 
 package-lock.json
-# frontend end
 node_modules/
+# frontend end
