@@ -20,7 +20,7 @@ def get_crawled_urls(url, mode='all', start_page=0):
         for _ in range(start_page):
             next_button = driver.find_element(By.CSS_SELECTOR, 'button._afxw._al46._al47')
             driver.execute_script("arguments[0].click();", next_button)
-            time.sleep(1)  # 페이지 로드 대기
+            time.sleep(2)  # 페이지 로드 대기
 
         while True:
             li_elements = driver.find_elements(By.CSS_SELECTOR, 'li._acaz')

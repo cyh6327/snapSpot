@@ -21,12 +21,9 @@ function InstagramSearch() {
     setSaveImagePath,
     loading,
     errorMessage,
-    selectedWords,
     getImageUrls,
     handleCheckboxChange,
     handleSpecificPageChange,
-    toggleLineSelection,
-    toggleWordSelection,
     extractedTexts,
     setExtractedTexts,
     image_urls
@@ -34,11 +31,13 @@ function InstagramSearch() {
 
   const {
     selectedCategories, setSelectedCategories
+    , selectedWords, setSelectedWords
+    , toggleLineSelection, toggleWordSelection
     , saveCategories, setSaveCategories
     , searchKeyword, setSearchKeyword
     , wrapper, setWrapper
     , handleCategoryClick
-    , addBookmark
+    , searchNaverMap
   } = useMapSearchState();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -81,42 +80,29 @@ function InstagramSearch() {
             const categories = localStorage.getItem('categories') ? localStorage.getItem('categories').split(',') : [];
 
             return (
-              <Box>
-                {/* 추출된 텍스트 및 이미지 링크를 표시하는 반복 렌더링 */}
-                {extractedTexts.map((text, index) => {
-                  const words = text.split('\n');
-                  const imageUrl = image_urls[index] || 'No image found';
-                  const lineSelected = words.every(word => selectedWords[`${index}_${words.indexOf(word)}`]);
-                  const categories = localStorage.getItem('categories') ? localStorage.getItem('categories').split(',') : [];
-
-                  return (
-                    <Box key={index} mb={5}>
-                      <Checkbox isChecked={lineSelected} onChange={() => toggleLineSelection(index, words)} />
-                      <Text as="h2" display="inline" fontSize="lg">
-                        {index + 1}. <Link href={imageUrl} isExternal>이미지</Link>
-                      </Text>
-                      {/* 카테고리를 동적으로 생성 및 선택 로직 처리 */}
-                      <Box>
-                        {categories.map((category, catIndex) => (
-                          <Button key={catIndex} colorScheme={selectedCategories[category] ? "blue" : "gray"} onClick={() => handleCategoryClick(category)}>
-                            {category}
-                          </Button>
-                        ))}
-                      </Box>
-                      {words.map((word, wordIndex) => (
-                        <Checkbox key={wordIndex} isChecked={selectedWords[`${index}_${wordIndex}`]} onChange={() => toggleWordSelection(index, wordIndex)}>
-                          {word}
-                        </Checkbox>
-                      ))}
-                    </Box>
-                  );
-                })}
-                <Button colorScheme="teal" onClick={addBookmark}>즐겨찾기 추가</Button>
+              <Box key={index} mb={5}>
+                <Checkbox isChecked={lineSelected} onChange={() => toggleLineSelection(index, words)} />
+                <Text as="h2" display="inline" fontSize="lg">
+                  {index + 1}. <Link href={imageUrl} isExternal>이미지</Link>
+                </Text>
+                <Box>
+                  {categories.map((category, catIndex) => (
+                    <Button key={catIndex} colorScheme={selectedCategories[category] ? "blue" : "gray"} onClick={() => handleCategoryClick(category)}>
+                      {category}
+                    </Button>
+                  ))}
+                </Box>
+                {words.map((word, wordIndex) => (
+                  <Checkbox key={wordIndex} isChecked={selectedWords[index]?.includes(word)} onChange={() => toggleWordSelection(index, word)}>
+                    {word}
+                  </Checkbox>
+                ))}
               </Box>
             );
           })
         )}
       </Box>
+      <Button colorScheme="teal" onClick={searchNaverMap}>지도 검색</Button>
     </Box>
   );
 }

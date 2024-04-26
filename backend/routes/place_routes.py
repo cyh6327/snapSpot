@@ -7,9 +7,10 @@ place_bp = Blueprint('place', __name__)
 @place_bp.route('/places', methods=['POST'])
 def route_get_places():
     data = request.json
-    keyword = data.get('keyword')
+    keyword_dict = data['keyword']
+    print("Received keywords:", keyword_dict)  # keyword_dict 출력
 
-    places = get_places(keyword)
+    places = get_places(keyword_dict)
 
     if places:
         return jsonify({'places': places})

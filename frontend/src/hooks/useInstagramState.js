@@ -8,7 +8,6 @@ export const useInstagramState = () => {
   const [start_page, setstart_page] = useState(1);
   const [isSaveImages, setIsSaveImages] = useState(false);
   const [imageSavePath, setSaveImagePath] = useState('');
-  const [selectedWords, setSelectedWords] = useState({});
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [image_urls, setImage_urls] = useState([]);
@@ -44,23 +43,6 @@ export const useInstagramState = () => {
     }
   };
 
-  const toggleLineSelection = (textIndex, words) => {
-    const isLineSelected = words.every((word, wordIndex) => selectedWords[`${textIndex}_${wordIndex}`] || false);
-    const newSelectedWords = { ...selectedWords };
-    words.forEach((word, wordIndex) => {
-      newSelectedWords[`${textIndex}_${wordIndex}`] = !isLineSelected;
-    });
-    setSelectedWords(newSelectedWords);
-  };
-
-  const toggleWordSelection = (textIndex, wordIndex) => {
-    const key = `${textIndex}_${wordIndex}`;
-    setSelectedWords(prev => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
-
   return {
     instagramUrl,
     setInstagramUrl,
@@ -76,12 +58,9 @@ export const useInstagramState = () => {
     setSaveImagePath,
     loading,
     errorMessage,
-    selectedWords,
     getImageUrls,
     handleCheckboxChange,
     handleSpecificPageChange,
-    toggleLineSelection,
-    toggleWordSelection,
     image_urls,
     setImage_urls,
     extractedTexts,

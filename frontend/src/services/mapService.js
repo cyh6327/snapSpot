@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:5000/api';
 
 export const getPlaces = async (selectedWords) => {
+  console.log("selected words .... ", selectedWords);
   try {
     const response = await axios.post(`${API_BASE_URL}/places`, {
       keyword : selectedWords
