@@ -8,7 +8,13 @@ export const useMapSearchState = () => {
     const [searchKeyword, setSearchKeyword] = useState([]);
     const [wrapper, setWrapper] = useState([]);
     const [selectedWords, setSelectedWords] = useState({});
+    const [places, setPlaces] = useState({});
     const toast = useToast();
+    // 상태 관리를 위해 useState를 사용
+    const [showMap, setShowMap] = useState(false);
+
+    // 지도 보기 모드를 토글하는 함수
+    const toggleShowMap = () => setShowMap(!showMap);
 
     const handleCategoryClick = (category) => {
         setSelectedCategories(prev => ({
@@ -25,6 +31,7 @@ export const useMapSearchState = () => {
 
         try {
             const places = await getPlaces(selectedWords);
+            setPlaces(places);
             console.log("returned places : ", places);
         } catch(error) {
             console.error(error);
@@ -68,5 +75,8 @@ export const useMapSearchState = () => {
         , wrapper, setWrapper
         , handleCategoryClick
         , searchNaverMap
+        , places
+        , showMap, setShowMap
+        , toggleShowMap
     }
 }

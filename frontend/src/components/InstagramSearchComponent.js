@@ -3,6 +3,7 @@ import { useInstagramState } from '../hooks/useInstagramState';
 import { useMapSearchState } from '../hooks/useMapSearchState';
 import { useDisclosure, Button, Input, Checkbox, Radio, RadioGroup, Stack, Box, Text, Link, Spinner, Alert, AlertIcon} from '@chakra-ui/react';
 import CategoryModal from './CategoryModal';
+import MapDisplay from './MapDisplay';
 import '../assets/styles/InstagramSearch.css';
 
 function InstagramSearch() {
@@ -38,6 +39,9 @@ function InstagramSearch() {
     , wrapper, setWrapper
     , handleCategoryClick
     , searchNaverMap
+    , places
+    , showMap, setShowMap
+    , toggleShowMap
   } = useMapSearchState();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,6 +53,10 @@ function InstagramSearch() {
       <Button colorScheme="blue" onClick={onOpen}>네이버 지도 즐겨찾기 카테고리 설정</Button>
       <CategoryModal isOpen={isOpen} onClose={onClose} />
 
+      {showMap ? (
+        // 지도 모드 활성화 시 MapDisplay 컴포넌트만 표시
+        <MapDisplay places={places} />
+      ) : (
       <Stack spacing={3} my={4}>
         <Input
           value={instagramUrl}
@@ -66,7 +74,11 @@ function InstagramSearch() {
         <Checkbox isChecked={isSaveImages} onChange={handleCheckboxChange}>이미지 저장 여부</Checkbox>
         {isSaveImages && <Input placeholder="이미지 저장 경로" value={imageSavePath} onChange={e => setSaveImagePath(e.target.value)} />}
         <Button colorScheme="teal" onClick={getImageUrls}>검색</Button>
+        <Button colorScheme="teal" onClick={toggleShowMap}>
+          {showMap ? '검색 결과 보기' : '지도 보기'}
+        </Button>
       </Stack>
+      )}
 
       {loading && <Spinner />}
       {errorMessage && <Alert status="error"><AlertIcon />{errorMessage}</Alert>}
@@ -97,6 +109,7 @@ function InstagramSearch() {
                     {word}
                   </Checkbox>
                 ))}
+                <MapDisplay places={places} />
               </Box>
             );
           })

@@ -19,13 +19,16 @@ def get_places(keyword_dict):
     for key, keywords in keyword_dict.items():
         places[key] = []
         for keyword in keywords:
+            print("for ... keyword:", keyword)
             url = f"https://openapi.naver.com/v1/search/local.json?query={keyword}&display=1&sort=random"
             response = requests.get(url, headers=headers)
 
             if response.status_code == 200:
                 search_results = response.json()['items']
                 if search_results:
-                    places[key] = search_results[0]  # 검색 결과의 첫 번째 항목을 할당
+                    if search_results:
+                        # 검색 결과를 리스트에 추가
+                        places[key].append(search_results[0])  # 검색 결과의 첫 번째 항목을 리스트에 추가  # 검색 결과의 첫 번째 항목을 할당
                 else:
                     places[key] = {}  # 검색 결과가 없는 경우 빈 객체 할당
             else:
